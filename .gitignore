@@ -1,0 +1,12 @@
+.gitkeep
+.env
+.env.test
+.env.development
+node_modules
+yarn-error.log
+.DS_Store
+.terragrunt-cache/
+tmp/
+src/coverage
+build/
+newrelic_agent.log
