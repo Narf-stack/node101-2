@@ -11,6 +11,12 @@ app.get('/api/courses',(req,res) => {
   res.send([1,2,3])
 })
 
+app.get('/api/courses/:id',(req,res) => {
+  
+  //res.send(`course ${req.params.id}`)
+  res.send(`query param ${req.query}`)
+})
+
 // Assign port value 
 const port = process.env.PORT || 3000
 
