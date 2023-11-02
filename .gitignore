@@ -10,3 +10,5 @@ tmp/
 src/coverage
 build/
 newrelic_agent.log
+
+express-demo/node_modules
