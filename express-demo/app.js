@@ -1,6 +1,8 @@
 const express  = require('express')
 const app = express()
 
+// enabled parsing of the body request
+app.use(express.json())
 
 const courses = [
   {id: 1, name: 'courses1' },
@@ -22,6 +24,15 @@ app.get('/api/courses/:id',(req,res) => {
   res.send(course)
   // res.send(`course ${req.params.id}`)
   // res.send(`query param ${req.query}`)
+})
+
+app.post('/api/courses',(req,res) => {
+ const course = {
+    id: courses.length + 1 , 
+    name: req.body.name 
+ }
+ courses.push(course)
+ res.send(course)
 })
 
 // Assign port value 
