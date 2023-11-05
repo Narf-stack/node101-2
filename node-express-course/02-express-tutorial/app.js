@@ -32,6 +32,28 @@ app.post('/api/people', (req,res) =>{
   }
 })
 
+app.put('/api/people/:id', (req,res) =>{
+  const { idParams } = req.params
+  const { name } = req.body
+  
+  const person = people.find(({id})=> id === Number(idParams))
+  
+  if(!person){
+    return res
+      .status(404)
+      .json({success: false, msg:`id ${idParams} does not exist `})
+  }
+
+  const newPeople= people.map((person) =>{
+    if(person.id === Number(idParams)) {
+      person.name = name
+    }
+    return person
+  })
+
+  res.status(200).json({success: true, data: newPeople})
+})
+
 app.all('*',(req,res)=>{
   res.status(404).send('not found')
 })
