@@ -33,15 +33,15 @@ app.post('/api/people', (req,res) =>{
 })
 
 app.put('/api/people/:id', (req,res) =>{
-  const { idParams } = req.params
+  const { id } = req.params
   const { name } = req.body
   
-  const person = people.find(({id})=> id === Number(idParams))
+  const person = people.find(({id})=> id === Number(id))
   
   if(!person){
     return res
       .status(404)
-      .json({success: false, msg:`id ${idParams} does not exist `})
+      .json({success: false, msg:`id ${id} does not exist `})
   }
 
   const newPeople= people.map((person) =>{
@@ -53,6 +53,21 @@ app.put('/api/people/:id', (req,res) =>{
 
   res.status(200).json({success: true, data: newPeople})
 })
+
+app.delete('/api/people/:id', (req,res) =>{  
+  const person = people.find(({id})=> id === Number(req.params.id))
+  
+  if(!person){
+    return res
+      .status(404)
+      .json({success: false, msg:`id ${req.params.id} does not exist `})
+  }
+
+  const newPeople = people.filter((person) => person.id !== Number(req.params.id))
+
+  res.status(200).json({success: true, data: newPeople})
+})
+
 
 app.all('*',(req,res)=>{
   res.status(404).send('not found')
