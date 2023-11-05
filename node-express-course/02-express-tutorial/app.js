@@ -6,6 +6,8 @@ let { people } = require('./data')
 app.use(express.static('./methods-public'))
 // parse from data 
 app.use(express.urlencoded({extended:false }))
+// parse json
+app.use(express.json())
 
 app.get('/api/people', (req,res) =>{
   res.status(200).json({success: true, data: people})
@@ -19,6 +21,15 @@ app.post('/login', (req,res) =>{
     return res.status(401).send(`please provide credential`)
   }
   
+})
+
+app.post('/api/people', (req,res) =>{
+  const { name } = req.body
+  if(name){
+    return res.status(201).json({success: true, person: name})
+  } else {
+    return res.status(401).json({success: false, msg:'please provide credential'} )
+  }
 })
 
 app.all('*',(req,res)=>{
