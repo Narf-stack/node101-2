@@ -1,13 +1,20 @@
 const express = require('express')
 const app = express()
 const logger = require('./logger')
+const morgan = require('morgan')
 const authorize = require('./authorize')
 
-// pass the midlleware to every route 
+// pass the personally designed midllewares to every route 
 // Order matter ;
 //  - needs to be on top, before the routes 
 //  - middleware will be executed in the order in the array
-app.use([logger, authorize])
+// app.use([logger, authorize])
+
+// Use express to provide middleware 
+// app.use(express.static(./public))
+
+// Use third party midleware. ( ex: morgan for the logging )
+app.use(morgan('tiny'))
 
 app.get('/', (req,res) =>{
   res.send('<h1>welcom wrld</h1>')
