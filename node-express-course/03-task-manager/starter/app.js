@@ -6,6 +6,7 @@ const tasks = require('./routes/tasks')
 require('dotenv').config()
 
 const notFound = require('./middleware/not-found')
+const errorHandlerMiddleware = require('./middleware/error-handler')
 // MIDDLEWARES
 // parse json
 app.use(express.json())
@@ -13,6 +14,7 @@ app.use(express.static('./public'))
 // routes
 app.use('/api/v1/tasks', tasks)
 app.use(notFound) // middleware when page not found
+app.use(errorHandlerMiddleware) // middleware when page error
 
 app.post('/hello',(req,res)=>{
   res.status(200).json(req.body)
