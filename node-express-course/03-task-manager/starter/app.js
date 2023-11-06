@@ -4,12 +4,15 @@ const app = express()
 const tasks = require('./routes/tasks')
 // require dotenv usqge
 require('dotenv').config()
+
+const notFound = require('./middleware/not-found')
 // MIDDLEWARES
 // parse json
 app.use(express.json())
 app.use(express.static('./public'))
 // routes
 app.use('/api/v1/tasks', tasks)
+app.use(notFound) // middleware when page not found
 
 app.post('/hello',(req,res)=>{
   res.status(200).json(req.body)
