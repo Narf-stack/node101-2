@@ -1,7 +1,9 @@
+const connectDB = require('./db/connect')
 const express = require('express')
 const app = express()
 const tasks = require('./routes/tasks')
-
+// require dotenv usqge
+require('dotenv').config()
 // MIDDLEWARES
 // parse json
 app.use(express.json())
@@ -36,7 +38,18 @@ app.post('/hello',(req,res)=>{
 
 // server
 const port = 3000
-app.listen(port, () =>{
-  console.log('server listenning')
-  
-})
+
+const start = async( )=>{
+  try {
+    await connectDB(process.env.MONGO_URI)
+    console.log('DB connection established')
+    app.listen(port, () =>{
+      console.log('server listenning')
+    })
+  }
+  catch(error){
+    console.log(error)
+  }
+}
+
+start()
