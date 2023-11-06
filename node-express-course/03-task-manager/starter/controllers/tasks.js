@@ -38,10 +38,21 @@ const updateSingleTask = (req,res)=>{
   res.status(200).json({success: true, data: `update task id ${id}`})
 }
 
-const delSingleTask = (req,res)=>{
-  const { id } = req.params
+const delSingleTask = async (req,res)=>{
+  const { id:taskID } = req.params
+  try {
+    const task = await Task.findOneAndDelete({_id:taskID})
 
-  res.status(200).json({success: true, data: `del task id ${id}`})
+    if(!task){
+      // never forget the return otherwise infinity loop
+      return res.status(404).json({msg: `No task id ${taskID} `})
+    }
+    // res.status(200).json({task})
+    // res.status(200).send()
+    res.status(200).json({task:null, status:'success'})
+  } catch (error) {
+    res.status(500).json({msg: error})
+  }
 }
 
 
