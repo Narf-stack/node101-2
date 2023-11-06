@@ -9,8 +9,8 @@ app.use(express.json())
 // routes
 app.use('/api/v1/tasks', tasks)
 
-app.get('/hello',(req,res)=>{
-  res.status(200).send('task manager app')
+app.post('/hello',(req,res)=>{
+  res.status(200).json(req.body)
 })
 
 
