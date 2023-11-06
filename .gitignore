@@ -12,3 +12,4 @@ build/
 newrelic_agent.log
 
 express-demo/node_modules
+node-express-course/03-task-manager/starter/db/
