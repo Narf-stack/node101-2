@@ -32,10 +32,27 @@ const getSingleTask = async (req,res)=>{
   }
 }
 
-const updateSingleTask = (req,res)=>{
-  const { id } = req.params
+const updateSingleTask = async (req,res)=>{
+  const newTaskValues = req.body
+  const { id:taskID } = req.params
+  const filter = { _id: taskID };
 
-  res.status(200).json({success: true, data: `update task id ${id}`})
+
+  try {
+    const updatedTask = await Task.findOneAndUpdate(filter,newTaskValues, {
+      new:true,
+      runValidators: true
+    })
+
+    if(!updatedTask){
+      // never forget the return otherwise infinity loop
+      return res.status(404).json({msg: `No task id ${taskID} `})
+    }
+
+    res.status(200).json({task:updatedTask, status:'success'})
+  } catch (error) {
+    res.status(500).json({msg: error})
+  }
 }
 
 const delSingleTask = async (req,res)=>{
