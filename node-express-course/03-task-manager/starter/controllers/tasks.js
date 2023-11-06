@@ -17,10 +17,19 @@ const createTask = async (req,res)=>{
   }
 }
 
-const getSingleTask = (req,res)=>{
-  const { id } = req.params
+const getSingleTask = async (req,res)=>{
+  const { id:taskID } = req.params
+  try {
+    const task = await Task.findOne({_id:taskID})
 
-  res.status(200).json({success: true, data: `create task id ${id}`})
+    if(!task){
+      // never forget the return otherwise infinity loop
+      return res.status(404).json({msg: `No task id ${taskID} `})
+    }
+    res.status(200).json({task})
+  } catch (error) {
+    res.status(500).json({msg: error})
+  }
 }
 
 const updateSingleTask = (req,res)=>{
