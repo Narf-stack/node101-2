@@ -37,9 +37,16 @@ const dashboard = async (req,res) => {
     throw new CustomAPIError('Invalid credentials',401) 
   }
   const token = authHeader.split(' ')[1]
-  const luckyNumber = Math.random()*100
 
-  res.status(200).json({ msg:`hello Doe`, secret:`num: ${luckyNumber}`})
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET)
+    const luckyNumber = Math.random()*100
+
+    res.status(200).json({ msg:`hello ${decoded.username}`, secret:`num: ${luckyNumber}`})
+  } catch (err) {
+    throw new CustomAPIError('Not authorized to access this route',401)
+  }
+
 }
 
 module.exports = {login, dashboard}
