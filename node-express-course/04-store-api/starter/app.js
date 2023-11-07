@@ -6,6 +6,7 @@ require('dotenv').config()
 // APP
 const express = require('express')
 const app = express()
+const connectDB = require('./db/connect')
 // MIDDLEWARES
 const notFoundMiddleware = require('./middleware/not-found')
 const errorHandlerMiddleware = require('./middleware/error-handler')
@@ -26,7 +27,8 @@ app.use(errorHandlerMiddleware)
 const port = process.env.PORT || 3000
 const start = async () => {
   try {
-    // enclose to connect to DB before listenning 
+    // promise to connect to DB before listenning 
+    await connectDB(process.env.MONGO_URI)
     app.listen(port, () =>{
       console.log( `server listenning ${port}`)
     })
