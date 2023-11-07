@@ -1,6 +1,6 @@
 require('dotenv').config()
 const jwt = require('jsonwebtoken')
-const CustomAPIError = require('../errors/custom-error')
+const { BadRequest } = require('../errors/index')
 
 
 const login = async (req,res)=> {
@@ -11,7 +11,7 @@ const login = async (req,res)=> {
   // Option 2 : Use Joi validation to check input for put request
   // Option 3 : Check in controller right away 
   if(!username || !password){
-   throw new CustomAPIError('provide login credentials',400) 
+   throw new BadRequest('provide login credentials') 
   }
 
   // Since no DB connection, we create a fake ID
