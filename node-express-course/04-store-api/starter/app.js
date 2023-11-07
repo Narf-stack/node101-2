@@ -1,5 +1,7 @@
 // invoc .env file
 require('dotenv').config()
+// package for try catch 
+require('express-async-errors')
 
 //ASYNC ERRORS
 
@@ -7,17 +9,19 @@ require('dotenv').config()
 const express = require('express')
 const app = express()
 const connectDB = require('./db/connect')
+const productsRouter = require('./routes/products')
 // MIDDLEWARES
 const notFoundMiddleware = require('./middleware/not-found')
 const errorHandlerMiddleware = require('./middleware/error-handler')
 
 app.use(express.json()) // parse json
 
-// rootes
+// routes
  app.get('/', (req,res)=>{
   res.status(200).send('<h1>Store API</h1><a href="/app/v1/products">products route </a>')
  })
 
+app.use('/api/v1/products',productsRouter)
 // products route
 
 
