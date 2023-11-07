@@ -29,7 +29,14 @@ const login = async (req,res)=> {
   res.status(200).json({msg:'user created', token})
 }
 
+
 const dashboard = async (req,res) => {
+  const authHeader = req.headers.authorization
+
+  if(!authHeader || !authHeader.startsWith('Bearer ')){
+    throw new CustomAPIError('Invalid credentials',401) 
+  }
+  const token = authHeader.split(' ')[1]
   const luckyNumber = Math.random()*100
 
   res.status(200).json({ msg:`hello Doe`, secret:`num: ${luckyNumber}`})
