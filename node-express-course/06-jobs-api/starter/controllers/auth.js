@@ -1,12 +1,14 @@
-
+const User = require('../models/User')
+const { StatusCodes } = require('http-status-codes')
 
 const register = async (req,res) => {
-  res.status(200).json({success: true, msg:'user registered'})
+  const user = await User.create({...req.body})
+  res.status(StatusCodes.CREATED).json({user})
 }
 
 
 const login = async (req,res) => {
-  res.status(200).json({success: true, msg:'user logged'})
+  res.json({success: true, msg:'user logged'})
 }
 
 
