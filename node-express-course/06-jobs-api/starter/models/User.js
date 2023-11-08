@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const bcrypt = require('bcryptjs')
 
 const UserSchema = new mongoose.Schema({
   name: {
@@ -24,6 +25,16 @@ const UserSchema = new mongoose.Schema({
     trim: true,
     minlength: [3, 'password can not be less than 3 characters']
   }
+})
+
+UserSchema.pre('save', async function(){
+  // PASSWORD ENCRYPTION.
+
+  // Generate random byte for the password encryption.
+  // The more the byte the more secure the encryption but more processing power required
+  const salt = await bcrypt.genSalt(10)
+  //   encryption.
+  this.password = await bcrypt.hash(this.password, salt)
 })
 
 module.exports = mongoose.model('User',UserSchema)
