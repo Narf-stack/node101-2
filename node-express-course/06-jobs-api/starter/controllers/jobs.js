@@ -1,7 +1,7 @@
 
 
 const getJobs = async (req,res) => {
-  res.status(200).json({success: true, data:'all jobs'})
+  res.status(200).json({success: true, data:req.user})
 }
 
 const getJob = async (req,res) => {
@@ -9,7 +9,7 @@ const getJob = async (req,res) => {
 }
 
 const createJob = async (req,res) => {
-  res.status(200).json({success: true, data:'job created'})
+  res.status(200).json({success: true, data: req.body})
 }
 
 const updateJob = async (req,res) => {
