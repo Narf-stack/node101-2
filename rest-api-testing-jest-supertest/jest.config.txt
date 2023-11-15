@@ -2,7 +2,9 @@
 module.exports = {
   preset: "ts-jest",
   testEnvironment: "node",
+  // tells to jest where to find the test
   testMatch: ["**/**/*.test.ts"],
+  // indicate if each individual test should be reported during the run
   verbose: true,
   forceExit: true,
   clearMocks: true,
