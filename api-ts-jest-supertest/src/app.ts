@@ -1,8 +1,14 @@
 import express from 'express'
+import config from 'config'
 
+
+// set app 
 const app = express()
+// fetch default parameters from the configuration files 
+const port = config.get<number>('port')
 
 
-app.listen(1337,()=> {
+// start server
+app.listen(port,()=> {
   console.log('server listening')
 })
