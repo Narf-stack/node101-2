@@ -1,4 +1,4 @@
 export default {
-  port: 1337,
-  dbUri: "mongodb://localhost:27017/api-ts-jest-supertest"
+  port: process.env.PORT || 5000,
+  dbUri: process.env.MONGO_URI || "",
 }
