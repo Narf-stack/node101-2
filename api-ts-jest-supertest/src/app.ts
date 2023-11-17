@@ -9,7 +9,7 @@ dotenv.config();
 
 import config from 'config'
 import connect from './utils/connect'
-
+import log from './utils/logger';
 // set app 
 const app = express()
 
@@ -20,6 +20,6 @@ const port = config.get<number>('port')
 
 // start server
 app.listen(port,async()=> {
-  console.log(`server listening on port ${port}`)
+  log.info(`server listening on port ${port}`)
   await connect()
 })
