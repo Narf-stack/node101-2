@@ -10,7 +10,8 @@ export interface UserDocument extends mongoose.Document {
   name: string,
   password: string, 
   createdAt: Date,
-  updatedAt: Date
+  updatedAt: Date, 
+  comparePassword(candidatePassword:string): Promise<Boolean>
 }
 
 // Mongoose used to define this before mongoose 6. For backward's compatibility, we will now just define it ourselves.
@@ -63,6 +64,15 @@ userSchema.pre('save', async function(next: HookNextFunction) {
 
   return next()
 })
+
+// Compare passaword when user log in 
+
+userSchema.methods.comnparePassword = async function(candidatePassword:string): Promise<Boolean>{
+  const user = this as UserDocument
+
+  const isMatch = await bcrypt.compare(candidatePassword, user.password).catch((e) => false ) 
+  return isMatch
+}
 
 
 // Users model
