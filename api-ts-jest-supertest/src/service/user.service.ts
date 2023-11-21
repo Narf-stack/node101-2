@@ -20,5 +20,5 @@ export async function validatePassword({email, password}:{email:string, password
 
   if(!isValid) return false 
 
-  return omit(user.toJSON, 'password')
+  return omit(user.toJSON(), 'password')
 }

@@ -2,7 +2,8 @@ import { createSession } from '../service/session.service'
 import { Request, Response} from 'express'
 import { StatusCodes } from 'http-status-codes'
 import {validatePassword} from '../service/user.service'
-
+import { signJwt } from '../utils/jwt.utils'
+import config from 'config'
 
 export async function createUserSessionHandler(req: Request, res:Response){
   // Validate user password
@@ -10,14 +11,16 @@ export async function createUserSessionHandler(req: Request, res:Response){
 
   if(!user) return res.status(StatusCodes.UNAUTHORIZED).send({message:'Ivalid email or password'})
   // creaste session 
+  const session = await createSession(user._id,req.get("user-agent") || '' )
   // create access token 
+  const accessTokenTtl = config.get<string>('accessTokenTtl')
+  const accessToken = signJwt(
+    { ...user, session: session._id},
+    { expiresIn:accessTokenTtl } // 15 min
+  )
   // create refresh token
   // return access & refresh token
-  try {
-    const userId = ''
-    const userAgent = ''
-    const session = await createSession(userId, userAgent)
-  } catch (error:any) {
-    return  res.status(StatusCodes.CONFLICT).send(error.message) 
-  }
+  
+  //  return  res.status(StatusCodes.CONFLICT).send(error.message) 
+  
 }
