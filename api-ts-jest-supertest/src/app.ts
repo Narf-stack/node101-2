@@ -14,10 +14,10 @@ import routes from './routes';
 // set app 
 const app = express()
 
-
 // fetch default parameters from the configuration files 
 const port = config.get<number>('port')
 
+app.use(express.json())
 
 // start server
 app.listen(port,async()=> {

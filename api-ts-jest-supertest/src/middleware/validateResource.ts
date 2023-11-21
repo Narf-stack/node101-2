@@ -3,16 +3,17 @@ import { AnyZodObject } from "zod";
 import {StatusCodes} from 'http-status-codes'
 
 
-const validate = (schema:AnyZodObject) => (req:Request, res:Response, next:NextFunction) => {
+const validateResource = (schema:AnyZodObject) => (req:Request, res:Response, next:NextFunction) => {
   try {
     schema.parse({
       body:req.body,
       query:req.query,
       params:req.params,
     })
+    next()
   } catch (e:any) {
     return res.status(StatusCodes.BAD_REQUEST).send(e.errors)
   }
 }
 
-export default validate
+export default validateResource

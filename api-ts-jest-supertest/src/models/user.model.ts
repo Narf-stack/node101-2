@@ -3,16 +3,22 @@ import bcrypt from 'bcrypt'
 import config from 'config'
 
 
-// Typescript definition for the UserSchema 
-
-export interface UserDocument extends mongoose.Document {
+// create a specific interface for user input, ommiting certains values to keep constency in user.controller#createUserHandler 
+// from the interface for the req.body and the one expected by createUser match
+export interface UserInput {
   email:string,
   name: string,
   password: string, 
+}
+
+
+// Typescript definition for the UserSchema 
+export interface UserDocument extends UserInput, mongoose.Document {
   createdAt: Date,
   updatedAt: Date, 
   comparePassword(candidatePassword:string): Promise<Boolean>
 }
+
 
 // Mongoose used to define this before mongoose 6. For backward's compatibility, we will now just define it ourselves.
 interface HookNextFunction {
@@ -58,6 +64,7 @@ userSchema.pre('save', async function(next: HookNextFunction) {
   const saltWorkFactor = config.get<number>("saltWorkFactor") // how many rounds should you salt the password
 
   const salt = await bcrypt.genSalt(saltWorkFactor)
+
   const hash = await bcrypt.hashSync(this.password, salt)
 
   user.password = hash
