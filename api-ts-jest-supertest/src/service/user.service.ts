@@ -1,6 +1,6 @@
 import UserModel, { UserInput } from '../models/user.model'
 import {omit} from 'lodash'
-
+import log from '../utils/logger'
 export async function createUser(input: UserInput) {
   try {
     const user = await UserModel.create(input)
@@ -19,6 +19,6 @@ export async function validatePassword({email, password}:{email:string, password
   const isValid = await user.comparePassword(password)
 
   if(!isValid) return false 
-
+  log.error(omit(user.toJSON(), 'password'))
   return omit(user.toJSON(), 'password')
 }

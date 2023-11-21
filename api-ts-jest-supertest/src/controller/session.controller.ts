@@ -8,19 +8,26 @@ import config from 'config'
 export async function createUserSessionHandler(req: Request, res:Response){
   // Validate user password
   const user = await validatePassword(req.body)
-
   if(!user) return res.status(StatusCodes.UNAUTHORIZED).send({message:'Ivalid email or password'})
   // creaste session 
   const session = await createSession(user._id,req.get("user-agent") || '' )
+
   // create access token 
   const accessTokenTtl = config.get<string>('accessTokenTtl')
   const accessToken = signJwt(
     { ...user, session: session._id},
     { expiresIn:accessTokenTtl } // 15 min
   )
+
   // create refresh token
+  const refreshTokenTtl = config.get<string>('refreshTokenTtl')
+  const refreshToken = signJwt(
+    { ...user, session: session._id},
+    { expiresIn:refreshTokenTtl } // 15 min
+  )
+
   // return access & refresh token
   
-  //  return  res.status(StatusCodes.CONFLICT).send(error.message) 
+  return  res.status(StatusCodes.OK).send({accessToken, refreshToken}) 
   
 }
