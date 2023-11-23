@@ -9,8 +9,7 @@ export async function createProduct(input:ProductInput ){
 }
 
 export async function getProduct(query:FilterQuery<ProductDocument>, options: QueryOptions = { lean: true }){
-  const product = await ProductModel.find(query, {}, options).lean()
-  return product
+  return await ProductModel.find(query, {}, options).lean()
 }
 
 export async function updateProduct(
@@ -22,6 +21,6 @@ export async function updateProduct(
 }
 
 export async function deleteProduct(query:FilterQuery<ProductDocument>){
-  const product = ProductModel.deleteOne(query)
-  
+  const product = await ProductModel.deleteOne(query)
+  return product
 }
