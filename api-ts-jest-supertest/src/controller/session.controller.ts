@@ -1,10 +1,11 @@
-import { createSession, getSessions } from '../service/session.service'
+import { createSession, getSessions, updateSession } from '../service/session.service'
 import { Request, Response} from 'express'
 import { StatusCodes } from 'http-status-codes'
 import {validatePassword} from '../service/user.service'
 import { signJwt } from '../utils/jwt.utils'
 import config from 'config'
 import log from '../utils/logger'
+import { Session } from 'inspector'
 
 export async function createUserSessionHandler(req: Request, res:Response){
   // Validate user password
@@ -35,9 +36,20 @@ export async function createUserSessionHandler(req: Request, res:Response){
 
 
 export async function getUserSessionHandler(req:Request, res:Response){
-  // user will added to the req object by a middleware 
+  // user will added to the req object by deserializeUser middleware 
   const userId = res.locals.user._id
 
   const sessions = await getSessions({user:userId, valid:true})
   return res.status(StatusCodes.OK).send(sessions)
+}
+
+
+export async function deleteUserSessionHandler( req:Request, res: Response) {
+  const session = res.locals.user.session
+
+  await updateSession({_id:session}, {valid:false})
+  return res.status(StatusCodes.OK).send({
+    accessToken: null,
+    refreshToken: null
+  })
 }
