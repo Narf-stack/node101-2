@@ -27,7 +27,7 @@ interface HookNextFunction {
 }
 
 // Userschema
-const userSchema = new mongoose.Schema({
+export const userSchema = new mongoose.Schema({
   email: {
     type: String,
     required: [true, 'Please provide email'],

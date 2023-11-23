@@ -23,8 +23,7 @@ const sessionSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    required: [true, 'Please provide user'],
-    unique: true,
+    required: [true, 'Please provide user']
   },
   valid: {
     type: Boolean,
@@ -39,6 +38,6 @@ const sessionSchema = new mongoose.Schema({
 
 
 // session model
-const SessionModel = mongoose.model('Session', sessionSchema)
+const SessionModel = mongoose.model<sessionDocument>('Session', sessionSchema)
 
 export default SessionModel
