@@ -43,6 +43,7 @@ export interface ProductInput {
 export interface ProductDocument extends ProductInput, mongoose.Document {
   createdAt: Date;
   updatedAt: Date;
+  productId: string
 }
 // Mongoose used to define this before mongoose 6. For backward's compatibility, we will now just define it ourselves.
 interface HookNextFunction {
