@@ -1,5 +1,6 @@
-import express from 'express'
+// import express from 'express'
 import * as dotenv from 'dotenv'
+import createServer from './utils/server';
 // import path from "path";
 // set env variable
 // Parsing the env file. Should be done before anyfile using one of the variable defined
@@ -14,13 +15,13 @@ import routes from './routes';
 import deserializeUser from './middleware/deserializeUser';
 
 // set app 
-const app = express()
-
+// export const app = express()
+export const app = createServer()
 // fetch default parameters from the configuration files 
 const port = config.get<number>('port')
 
-app.use(deserializeUser)
-app.use(express.json())
+// app.use(deserializeUser)
+// app.use(express.json())
 
 // start server
 app.listen(port,async()=> {
@@ -28,5 +29,5 @@ app.listen(port,async()=> {
   //DB connection
   await connect()
   //calling routes
-  routes(app)
+  // routes(app)
 })

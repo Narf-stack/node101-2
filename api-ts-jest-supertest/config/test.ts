@@ -1,5 +1,4 @@
-// need one config file per environnement, this one is for default
-
+// need one config file per environnement, this one is for test
 export default {
   port: process.env.PORT || 5000,
   dbUri: process.env.MONGO_URI || "",

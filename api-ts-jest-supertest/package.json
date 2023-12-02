@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node ./src/app.ts",
     "dev": "ts-node-dev --respawn --transpile-only src/app.ts",
-    "build": "tsc"
+    "build": "tsc",
+    "test": "jest"
   },
   "dependencies": {
     "@types/http-status-codes": "^1.2.0",
@@ -16,9 +17,12 @@
     "dayjs": "^1.11.10",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
+    "fb-watchman": "^2.0.2",
     "je": "^1.0.2",
     "jsonwebtoken": "^9.0.2",
     "lodash": "^4.17.21",
+    "mongodb-memory-server": "^9.1.1",
+    "mongodb-memory-server-global-4.4": "^9.1.1",
     "mongoose": "^8.0.1",
     "mongoose-types": "^1.0.3",
     "nanoid": "^5.0.3",
