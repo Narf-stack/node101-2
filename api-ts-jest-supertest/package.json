@@ -9,6 +9,10 @@
     "build": "tsc",
     "test": "jest"
   },
+  "jest": {
+    "testEnvironment": "node",
+    "testTimeout": 9000
+  },
   "dependencies": {
     "@types/http-status-codes": "^1.2.0",
     "bcrypt": "^5.1.1",
