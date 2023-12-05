@@ -12,3 +12,8 @@ export async function createUserHandler(req:Request<{},{},CreateUserInput['body'
     return  res.status(StatusCodes.CONFLICT).send(error.message) 
   }
 }
+
+export async function getCurrentUser(req:Request, res:Response) {
+  return res.send(res.locals.user)
+
+}

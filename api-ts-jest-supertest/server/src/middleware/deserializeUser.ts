@@ -5,9 +5,9 @@ import {reIssueAccessToken} from '../service/session.service'
 
 const deserializeUser = async ( req:Request ,res: Response, next: NextFunction ) => {
 
-  // get the accessToken and refreshToken from the headers
-  const accessToken = get(req,"headers.authorization",'').replace(/^Bearer\s/,'')
-  const refreshToken = get(req,"headers.x-refresh")
+  // get the accessToken and refreshToken from the headers or the cookies
+  const accessToken = get(req, 'cookies.accessToken') || get(req,"headers.authorization",'').replace(/^Bearer\s/,'')
+  const refreshToken = get(req, 'cookies.refreshToken') ||get(req,"headers.x-refresh")
 
   // if not accessToken we return next
   if(!accessToken) {
@@ -32,6 +32,16 @@ const deserializeUser = async ( req:Request ,res: Response, next: NextFunction )
     if(newAccessToken){
       // set the  newAccessToken to the header 
       res.setHeader('x-access-token', newAccessToken)
+
+      // set new access token in the cookie
+      res.cookie("accessToken", newAccessToken, {
+        maxAge: 900000, // 15 mins
+        httpOnly : true, // this cookie can only be accessed by http and not JS, it's safer than using local storage
+        domain:'localhost', // better use a var in config to have it moduable depending on the env ( prod, local,test...)
+        path: "/",
+        sameSite: "strict",
+        secure: false // means that the cookie can only be used on "https", here false because locally we use "http" in production set to true, nicer to have a flag "isProduction? true :false " 
+      })
     }
 
     // decode newAccesstoken and attached the decoded to user in the locals

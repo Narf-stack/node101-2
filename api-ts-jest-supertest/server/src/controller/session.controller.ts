@@ -28,8 +28,26 @@ export async function createUserSessionHandler(req: Request, res:Response){
     { expiresIn:refreshTokenTtl } // 15 min
   )
 
+  // store access token , refreshToken in the cookies to sent them back to the server 
+  res.cookie("accessToken", accessToken, {
+    maxAge: 900000, // 15 mins
+    httpOnly : true, // this cookie can only be accessed by http and not JS, it's safer than using local storage
+    domain:'localhost', // better use a var in config to have it moduable depending on the env ( prod, local,test...)
+    path: "/",
+    sameSite: "strict",
+    secure: false // means that the cookie can only be used on "https", here false because locally we use "http" in production set to true, nicer to have a flag "isProduction? true :false " 
+  })
+
+  res.cookie("refreshToken", refreshToken,{
+    maxAge: 3.154e10, // 1 year
+    httpOnly : true, // this cookie can only be accessed by http and not JS, it's safer than using local storage
+    domain:'localhost', // better use a var in config to have it moduable depending on the env ( prod, local,test...)
+    path: "/",
+    sameSite: "strict",
+    secure: false // means that the cookie can only be used on "https", here false because locally we use "http" in production set to true, nicer to have a flag "isProduction? true :false " 
+  })
+
   // return access & refresh token
-  
   return  res.status(StatusCodes.OK).send({accessToken, refreshToken}) 
   
 }

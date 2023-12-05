@@ -1,4 +1,7 @@
+import {useState} from 'react'
 import {useForm} from 'react-hook-form'
+import axios from 'axios'
+import {useRouter} from 'next/router'
 import {zodResolver} from '@hookform/resolvers/zod'
 import {object, string, TypeOf} from 'zod'
 
@@ -25,6 +28,8 @@ const createUserSchema  = object({
 type createUserInput = TypeOf< typeof createUserSchema >
 
 function RegisterPage(){
+  const [registerError, setRegisterError] = useState<string | null>(null)
+  const router = useRouter()
   const {
     register, 
     formState:{errors}, 
@@ -33,13 +38,21 @@ function RegisterPage(){
     resolver: zodResolver(createUserSchema) // validation if form values aligned with schema definition 
   })
 
-  function onSubmit(values:createUserInput){
-    console.log({values})
+  async function onSubmit(values:createUserInput){ // on submit create user
+    try {
+      await axios.post(`${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/api/users`, values)
+    } catch (error:any) {
+      let messages = [ ]
+      messages.push(error.response.data)
+      messages.push(error.message)
+      setRegisterError(messages)
+      router.push("/")
+    }
   }
-  console.log({errors})
 
   return (
     <>
+      <p>{registerError}</p>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className='form-element'>
           <label htmlFor='email'> Email </label>
@@ -61,7 +74,7 @@ function RegisterPage(){
 
         <div className='form-element'>
           <label htmlFor='passwordConfirmation'> password confirmation </label>
-          <input id ='passwordConfirmation' type='passwordConfirmation' placeholder='****' {...register('passwordConfirmation')}/>
+          <input id ='passwordConfirmation' type='password' placeholder='****' {...register('passwordConfirmation')}/>
           <p>{errors.passwordConfirmation?.message}</p>
         </div>
         <button type='submit'> SUBMIT</button>
