@@ -1,6 +1,6 @@
-namespace NodeJS {
+declare namespace NodeJS {
   interface ProcessEnv {
-    PORT: number;
+    PORT: string;
     MONGO_URI: string;
     SALT_WORK_FACTOR: string;
     JWT_PUBLIC_KEY:string;
