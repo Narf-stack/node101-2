@@ -31,7 +31,10 @@ function LoginPage(){
 
   async function onSubmit(values:createSessionInput){ // on submit create user
     try {
-      await axios.post(`${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/api/sessions`, values)
+      await axios.post(`${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/api/sessions`, 
+      values, 
+      {withCredentials:true} // make sure that the cookies are being set ( see tab Application in chrome dev) 
+    )
     } catch (error:any) {
       let messages = [ ]
       messages.push(error.response.data)
