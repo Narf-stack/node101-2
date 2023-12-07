@@ -14,6 +14,8 @@ import log from './utils/logger';
 import routes from './routes';
 import deserializeUser from './middleware/deserializeUser';
 import { startMetricsServer } from './utils/metrics'
+import swaggerDocs from './utils/swagger'
+
 // set app 
 // export const app = express()
 export const app = createServer()
@@ -31,4 +33,5 @@ app.listen(port,async()=> {
   //calling routes
   // routes(app)
   startMetricsServer()
+  swaggerDocs(app,port)
 })
