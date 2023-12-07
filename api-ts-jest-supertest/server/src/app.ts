@@ -13,7 +13,7 @@ import connect from './utils/connect'
 import log from './utils/logger';
 import routes from './routes';
 import deserializeUser from './middleware/deserializeUser';
-
+import { startMetricsServer } from './utils/metrics'
 // set app 
 // export const app = express()
 export const app = createServer()
@@ -30,4 +30,5 @@ app.listen(port,async()=> {
   await connect()
   //calling routes
   // routes(app)
+  startMetricsServer()
 })
